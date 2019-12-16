@@ -20,7 +20,21 @@ namespace TechJobs.Controllers
         public IActionResult Index(int id)
         {
             // TODO #1 - get the Job with the given ID and pass it into the view
-            return View(jobData.Find(id));
+            
+            // Find a single job to display
+            Job singleJob = jobData.Find(id);
+
+            // Create instance of single job ViewModel
+            // NewJobViewModel mainJob = new NewJobViewModel();
+
+            // Populate properties of single job
+            // mainJob.Name = singleJob.Name;
+            // mainJob.EmployerID = singleJob.Employer.ID;
+            // mainJob.CoreCompetencyID = singleJob.ID;
+            // mainJob.LocationID = singleJob.ID;
+            // mainJob.PositionTypeID = singleJob.PositionType.ID;
+
+            return View(singleJob);
         }
 
         public IActionResult New()
@@ -36,26 +50,27 @@ namespace TechJobs.Controllers
             // new Job and add it to the JobData data store. Then
             // redirect to the Job detail (Index) action/view for the new Job.
 
-            if (!ModelState.IsValid)
+            // Job fields must be complete
+            if (ModelState.IsValid)
             {
-                return View(newJobViewModel);
-            }
-            else
-            {
+                // Create a new Job object
                 Job newJob = new Job
                 {
                     Name = newJobViewModel.Name,
                     Employer = jobData.Employers.Find(newJobViewModel.EmployerID),
                     Location = jobData.Locations.Find(newJobViewModel.LocationID),
                     CoreCompetency = jobData.CoreCompetencies.Find(newJobViewModel.CoreCompetencyID),
-                    PositionType = jobData.PositionTypes.Find(newJobViewModel.PositionTypeID),
+                    PositionType = jobData.PositionTypes.Find(newJobViewModel.PositionTypeID)
                 };
 
+                // Add a new single Job
                 jobData.Jobs.Add(newJob);
 
-                return Redirect("/Job?ID=" + newJob.ID.ToString());
+                // Redirect to single job display page
+                return Redirect(string.Format("Index?={0}", newJob.ID));
             }
 
+            return View(newJobViewModel);
         }
     }
 }

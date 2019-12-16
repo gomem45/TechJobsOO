@@ -30,7 +30,7 @@ namespace TechJobs.ViewModels
         [Display(Name = "Position Type")]
         public int PositionTypeID { get; set; }
 
-
+        // Create several SelectLists of ViewModel properties
         public List<SelectListItem> Employers { get; set; } = new List<SelectListItem>();
         public List<SelectListItem> Locations { get; set; } = new List<SelectListItem>();
         public List<SelectListItem> CoreCompetencies { get; set; } = new List<SelectListItem>();
@@ -43,7 +43,8 @@ namespace TechJobs.ViewModels
 
             foreach (Employer field in jobData.Employers.ToList())
             {
-                Employers.Add(new SelectListItem {
+                Employers.Add(new SelectListItem 
+                {
                     Value = field.ID.ToString(),
                     Text = field.Value
                 });
@@ -66,7 +67,7 @@ namespace TechJobs.ViewModels
                 {
                     Value = field.ID.ToString(),
                     Text = field.Value
-                }) ;
+                });
             }
 
             foreach (PositionType field in jobData.PositionTypes.ToList())
@@ -75,8 +76,9 @@ namespace TechJobs.ViewModels
                 {
                     Value = field.ID.ToString(),
                     Text = field.Value
-                }); 
+                });
             }
         }
+
     }
 }
